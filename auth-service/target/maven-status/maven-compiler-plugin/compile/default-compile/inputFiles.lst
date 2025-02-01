@@ -1,0 +1,11 @@
+/Users/eleusizdaniyar/IdeaProjects/banking-system/auth-service/src/main/java/org/example/authservice/AuthServiceApplication.java
+/Users/eleusizdaniyar/IdeaProjects/banking-system/auth-service/src/main/java/org/example/authservice/config/SecurityConfig.java
+/Users/eleusizdaniyar/IdeaProjects/banking-system/auth-service/src/main/java/org/example/authservice/controller/AuthController.java
+/Users/eleusizdaniyar/IdeaProjects/banking-system/auth-service/src/main/java/org/example/authservice/dto/LoginUser.java
+/Users/eleusizdaniyar/IdeaProjects/banking-system/auth-service/src/main/java/org/example/authservice/dto/RegisterUser.java
+/Users/eleusizdaniyar/IdeaProjects/banking-system/auth-service/src/main/java/org/example/authservice/feign/UserFeign.java
+/Users/eleusizdaniyar/IdeaProjects/banking-system/auth-service/src/main/java/org/example/authservice/filter/JwtFilter.java
+/Users/eleusizdaniyar/IdeaProjects/banking-system/auth-service/src/main/java/org/example/authservice/model/User.java
+/Users/eleusizdaniyar/IdeaProjects/banking-system/auth-service/src/main/java/org/example/authservice/service/AuthService.java
+/Users/eleusizdaniyar/IdeaProjects/banking-system/auth-service/src/main/java/org/example/authservice/service/JwtService.java
+/Users/eleusizdaniyar/IdeaProjects/banking-system/auth-service/src/main/java/org/example/authservice/service/UserDetailServiceImpl.java

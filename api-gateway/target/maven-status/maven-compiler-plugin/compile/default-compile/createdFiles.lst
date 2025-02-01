@@ -1,0 +1,4 @@
+org/example/apigateway/filter/AuthFilter.class
+org/example/apigateway/filter/AuthFilter$Config.class
+org/example/apigateway/config/GatewayConfig.class
+org/example/apigateway/ApiGatewayApplication.class

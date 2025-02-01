@@ -1,0 +1,123 @@
+services:
+
+
+  # Gateway Service
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - eureka-server
+    networks:
+      - microservices-network
+
+
+  # Eureka Server
+  eureka-server:
+    build:
+      context: ./eureka-server
+      dockerfile: Dockerfile
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - microservices-network
+
+
+    # User Service
+  user-service:
+   build:
+     context: ./user-service
+     dockerfile: Dockerfile
+   container_name: user-service
+   environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-bank-user:5432/bank_user
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+   ports:
+     - "8082:8082"
+   depends_on:
+     - api-gateway
+     - postgres-bank-user
+   networks:
+     - microservices-network
+
+
+  # Auth Service
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    container_name: auth-service
+    ports:
+    - "8081:8081"
+    depends_on:
+      - user-service
+    networks:
+      - microservices-network
+
+
+
+  # Account Service
+  account-service:
+    build:
+      context: ./account-service
+      dockerfile: Dockerfile
+    container_name: account-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-bank-account:5432/bank_account
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    ports:
+      - "8083:8083"
+    depends_on:
+      - user-service
+      - postgres-bank-account
+    networks:
+      - microservices-network
+
+
+
+  # postgresql database
+  postgres-bank-user:
+    image: postgres:15-alpine
+    shm_size: 128MB
+    container_name: postgres-bank-user
+    environment:
+      POSTGRES_DB: bank_user
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+        - "5432:5432"
+    volumes:
+      - postgres-bank-user-vol:/var/lib/postgresql/data
+    networks:
+        - microservices-network
+
+
+
+  postgres-bank-account:
+    image: postgres:15-alpine
+    container_name: postgres-bank-account
+    environment:
+      POSTGRES_DB: bank_account
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-bank-account-vol:/var/lib/postgresql/data
+    networks:
+      - microservices-network
+
+
+networks:
+  microservices-network:
+    driver: bridge
+
+volumes:
+    postgres-bank-user-vol:
+    postgres-bank-account-vol:

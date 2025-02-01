@@ -1,0 +1,10 @@
+/Users/eleusizdaniyar/IdeaProjects/banking-system/account-service/src/main/java/org/example/accountservice/AccountServiceApplication.java
+/Users/eleusizdaniyar/IdeaProjects/banking-system/account-service/src/main/java/org/example/accountservice/controller/AccountController.java
+/Users/eleusizdaniyar/IdeaProjects/banking-system/account-service/src/main/java/org/example/accountservice/dto/UserDTO.java
+/Users/eleusizdaniyar/IdeaProjects/banking-system/account-service/src/main/java/org/example/accountservice/feign/UserClient.java
+/Users/eleusizdaniyar/IdeaProjects/banking-system/account-service/src/main/java/org/example/accountservice/model/Account.java
+/Users/eleusizdaniyar/IdeaProjects/banking-system/account-service/src/main/java/org/example/accountservice/model/Card.java
+/Users/eleusizdaniyar/IdeaProjects/banking-system/account-service/src/main/java/org/example/accountservice/repository/AccountRepository.java
+/Users/eleusizdaniyar/IdeaProjects/banking-system/account-service/src/main/java/org/example/accountservice/repository/CardRepository.java
+/Users/eleusizdaniyar/IdeaProjects/banking-system/account-service/src/main/java/org/example/accountservice/service/AccountService.java
+/Users/eleusizdaniyar/IdeaProjects/banking-system/account-service/src/main/java/org/example/accountservice/service/CardService.java

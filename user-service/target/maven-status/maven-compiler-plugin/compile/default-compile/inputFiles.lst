@@ -1,0 +1,6 @@
+/Users/eleusizdaniyar/IdeaProjects/banking-system/user-service/src/main/java/org/example/userservice/UserServiceApplication.java
+/Users/eleusizdaniyar/IdeaProjects/banking-system/user-service/src/main/java/org/example/userservice/controller/UserController.java
+/Users/eleusizdaniyar/IdeaProjects/banking-system/user-service/src/main/java/org/example/userservice/dto/UserDTO.java
+/Users/eleusizdaniyar/IdeaProjects/banking-system/user-service/src/main/java/org/example/userservice/model/User.java
+/Users/eleusizdaniyar/IdeaProjects/banking-system/user-service/src/main/java/org/example/userservice/repository/UserRepository.java
+/Users/eleusizdaniyar/IdeaProjects/banking-system/user-service/src/main/java/org/example/userservice/service/UserService.java
