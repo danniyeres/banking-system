@@ -2,7 +2,7 @@ package org.example.transactionservice.model;
 
 public enum TransactionType {
     DEPOSIT,
-    WITHDRAWAL,
+    WITHDRAW,
     TRANSFER,
     PAYMENT,
     REFUND

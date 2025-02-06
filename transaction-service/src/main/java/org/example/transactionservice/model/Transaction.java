@@ -7,7 +7,7 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -16,15 +16,15 @@ public class Transaction {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long accountId;
-    private Long amount;
-    private Date createdAt;
 
-    public Transaction(Long id, Long accountId, Long amount, Date createdAt) {
-        this.id = id;
+    private Long accountId;
+    private double amount;
+    private LocalDateTime createdAt;
+
+    public Transaction(Long accountId, double amount) {
         this.accountId = accountId;
         this.amount = amount;
-        this.createdAt = createdAt;
+        this.createdAt = LocalDateTime.now();
     }
 
     public Transaction() {
