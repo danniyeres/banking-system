@@ -11,6 +11,8 @@ import org.example.authservice.model.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -51,9 +53,12 @@ public class AuthService {
 
     public void sendNotification(String email, String message) {
 
-        NotifyDTO notifyMessage = NotifyDTO.builder()
+        var date = new Date();
+        String dateFormatted = date.getDay() + "/" + date.getMonth() + "/" + date.getYear() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        var notifyMessage = NotifyDTO.builder()
                 .email(email)
                 .message(message)
+                .createdAt(date)
                 .build();
 
         authProducer.sendNotification(notifyMessage);
