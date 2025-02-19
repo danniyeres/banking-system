@@ -16,6 +16,10 @@ public class AccountService {
     private final UserClient userClient;
 
     public Account createAccount(Account accountDTO) {
+        var userDTO = userClient.getUserById(accountDTO.getOwnerId());
+        if (userDTO == null)
+            throw new IllegalArgumentException("User not found with id: " + accountDTO.getOwnerId());
+
         var account = Account.builder()
                 .ownerName(accountDTO.getOwnerName())
                 .ownerId(accountDTO.getOwnerId())
@@ -31,7 +35,6 @@ public class AccountService {
 
     public Account createAccountWithUserId(Long userId) {
         var userDTO = userClient.getUserById(userId);
-
         if (userDTO == null)
             throw new IllegalArgumentException("User not found with id: " + userId);
 

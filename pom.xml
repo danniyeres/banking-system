@@ -13,5 +13,6 @@
         <module>user-service</module>
         <module>account-service</module>
         <module>notification-service</module>
+        <module>transaction-service</module>
     </modules>
 </project>

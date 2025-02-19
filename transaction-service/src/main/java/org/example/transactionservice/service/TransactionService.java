@@ -2,14 +2,16 @@ package org.example.transactionservice.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.transactionservice.dto.TransactionNotify;
 import org.example.transactionservice.feign.AccountClient;
-import org.example.transactionservice.model.Deposit;
+import org.example.transactionservice.feign.UserClient;
+import org.example.transactionservice.kafka.TransactionProducer;
 import org.example.transactionservice.model.Transaction;
 import org.example.transactionservice.model.TransactionType;
-import org.example.transactionservice.model.Withdraw;
 import org.example.transactionservice.repository.TransactionRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -18,6 +20,8 @@ import java.util.List;
 public class TransactionService {
     private final TransactionRepository transactionRepository;
     private final AccountClient accountClient;
+    private final UserClient userClient;
+    private final TransactionProducer transactionProducer;
 
     public void deposit(Long accountId, double amount) {
         var account = accountClient.getAccount(accountId);
@@ -28,8 +32,23 @@ public class TransactionService {
             throw new IllegalArgumentException("Amount must be greater than 0");
 
         accountClient.deposit(accountId, amount);
+        var user = userClient.getUserById(account.getOwnerId());
+        var transaction = Transaction.builder()
+                .toAccountId(accountId)
+                .amount(amount)
+                .type(TransactionType.DEPOSIT)
+                .ownerName(account.getOwnerName())
+                .timestamp(new Date())
+                .build();
 
-        transactionRepository.save(new Deposit(TransactionType.DEPOSIT, accountId, amount, account.getOwnerName()));
+        transactionRepository.save(transaction);
+
+        var transactionNotify = TransactionNotify.builder()
+                .email(user.getEmail())
+                .message("Deposited " + amount + " to account " + accountId)
+                .build();
+
+        transactionProducer.sendNotification(transactionNotify);
 
         log.info("Deposited {} to account {}", amount, accountId);
     }
@@ -47,8 +66,22 @@ public class TransactionService {
 
         accountClient.withdraw(accountId, amount);
 
-        transactionRepository.save(new Withdraw(TransactionType.WITHDRAW, accountId, amount, account.getOwnerName()));
+        var user = userClient.getUserById(account.getOwnerId());
+        var transaction = Transaction.builder()
+                .fromAccountId(accountId)
+                .amount(amount)
+                .type(TransactionType.WITHDRAW)
+                .ownerName(account.getOwnerName())
+                .timestamp(new Date())
+                .build();
 
+        var transactionNotify = TransactionNotify.builder()
+                .email(user.getEmail())
+                .message("Withdrawn " + amount + " from account " + accountId)
+                .build();
+
+        transactionProducer.sendNotification(transactionNotify);
+        transactionRepository.save(transaction);
         log.info("Withdrawn {} from account {}", amount, accountId);
     }
 
@@ -71,17 +104,38 @@ public class TransactionService {
         accountClient.withdraw(fromAccountId, amount);
         accountClient.deposit(toAccountId, amount);
 
+        var transaction = Transaction.builder()
+                .fromAccountId(fromAccountId)
+                .toAccountId(toAccountId)
+                .amount(amount)
+                .type(TransactionType.TRANSFER)
+                .ownerName(fromAccount.getOwnerName())
+                .timestamp(new Date())
+                .build();
+
+        transactionRepository.save(transaction);
+
+        var fromUser = userClient.getUserById(fromAccount.getOwnerId());
+        var toUser = userClient.getUserById(toAccount.getOwnerId());
+
+        var fromTransactionNotify = TransactionNotify.builder()
+                .email(fromUser.getEmail())
+                .message("Transferred " + amount + " to account " + toAccountId)
+                .build();
+
+        var toTransactionNotify = TransactionNotify.builder()
+                .email(toUser.getEmail())
+                .message("Received " + amount + " from account " + fromAccountId)
+                .build();
+
+        transactionProducer.sendNotification(fromTransactionNotify);
+        transactionProducer.sendNotification(toTransactionNotify);
+
         log.info("Transferred {} from account {} to account {}", amount, fromAccountId, toAccountId);
     }
 
-
-
     public Transaction getTransaction(Long transactionId) {
         return transactionRepository.findById(transactionId).orElseThrow();
-    }
-
-    public List<Transaction> getTransactionsByAccountId(Long accountId) {
-        return transactionRepository.findTransactionsByAccountId(accountId);
     }
 
     public List<Transaction> getAllTransactions() {

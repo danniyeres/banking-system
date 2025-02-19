@@ -4,29 +4,26 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
 public class Transaction {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long accountId;
+    private Long fromAccountId;
+    private Long toAccountId;
     private double amount;
-    private LocalDateTime createdAt;
+    private String ownerName;
+    private TransactionType type;
+    private Date timestamp;
 
-    public Transaction(Long accountId, double amount) {
-        this.accountId = accountId;
-        this.amount = amount;
-        this.createdAt = LocalDateTime.now();
-    }
-
-    public Transaction() {
-    }
 }
