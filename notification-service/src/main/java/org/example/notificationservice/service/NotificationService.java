@@ -13,7 +13,15 @@ public class NotificationService {
         this.mailSender = mailSender;
     }
 
-    public void sendNotification(String to, String subject, String text) {
+    public void sendAuthNotification(String to, String subject, String text) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject(subject);
+        message.setText(text);
+        mailSender.send(message);
+    }
+
+    public void sendTransactionNotification(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
         message.setSubject(subject);
