@@ -2,8 +2,21 @@ spring:
   application:
     name: transaction-service
 
+  datasource:
+    url: jdbc:postgresql://postgres-bank-transactions:5432/bank_transactions
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
-
+server:
+  port: 8085
 
 
 

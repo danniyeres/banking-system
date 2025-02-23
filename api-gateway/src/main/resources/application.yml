@@ -35,8 +35,7 @@ spring:
           uri: lb://notification-service
           predicates:
             - Path=/notification/**
-          filters:
-            - name: AuthFilter
+
 
 eureka:
   client:

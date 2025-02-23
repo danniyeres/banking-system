@@ -39,8 +39,5 @@ public class TransactionController {
         return transactionService.getAllTransactions();
     }
 
-    @GetMapping("/get/account/{accountId}")
-    public Iterable<Transaction> getTransactionsByAccountId(@PathVariable Long accountId) {
-        return transactionService.getTransactionsByAccountId(accountId);
-    }
+
 }
