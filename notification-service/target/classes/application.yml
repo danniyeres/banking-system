@@ -5,6 +5,19 @@ spring:
   application:
     name: notification-service
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: danniyeres@gmail.com
+    password: "mdlx tmux vxpb wdzp"
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+
   kafka:
     bootstrap-servers: localhost:9092
     consumer:
@@ -13,3 +26,11 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka
